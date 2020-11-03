@@ -18,6 +18,9 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Tên Lớp</th>
+                                	<th>Môn Hoc</th>
+                                	<th>Giáo viên</th>
+                                    <th>Sinh viên</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -25,7 +28,9 @@
                                 <tr th:each="item:${LIST_LOPHOC}">
                                     <td th:text="${item.id}"></td>
                                     <td th:text="${item.tenlop}"></td>
-                                 
+                                 	 <td th:style="${item.monhoc == null ? 'color:red;' : ''}" th:text="${item.monhoc == null ? '--' : item.monhoc.tenmonhoc}"></td>
+                                     <td th:style="${item.gv == null ? 'color:red;' : ''}" th:text="${item.gv == null ? '--' : item.gv.fullname}"></td>
+                                    <td th:style="${item.sv == null ? 'color:red;' : ''}" th:text="${item.sv == null ? '--' : item.sv.hovaten}"></td>
                                     <td>
                                         <div class="dropdown btn-custom">
                                             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

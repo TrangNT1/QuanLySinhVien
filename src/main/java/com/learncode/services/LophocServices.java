@@ -5,7 +5,10 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.learncode.models.Giaovien;
 import com.learncode.models.Lophoc;
+import com.learncode.models.Monhoc;
+import com.learncode.models.Sinhvien;
 import com.learncode.models.User;
 
 
@@ -37,6 +40,12 @@ public interface LophocServices {
 	boolean checkLogin(String username, String password);
 
 	Optional<User> findByIdUser(String id);
+
+	List<Monhoc> findAllMonhoc();
+
+	List<Sinhvien> findAllSinhvien();
+
+	List<Giaovien> findAllGiaovien();
 
 
 

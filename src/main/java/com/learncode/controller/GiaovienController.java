@@ -1,8 +1,8 @@
 package com.learncode.controller;
 
-
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -22,98 +22,98 @@ import com.learncode.models.Lophoc;
 import com.learncode.services.GiaovienServices;
 import com.learncode.services.LophocServices;
 
-
-
 @Controller
 @RequestMapping("/giaovien")
 public class GiaovienController {
 	@Autowired
 	GiaovienServices giaovienServices;
-	
+
 	@Autowired
 	LophocServices lophocServices;
-	
-	@ModelAttribute(name ="LOPHOC")
-	public List<Lophoc> getAllLophoc(){
+
+	@ModelAttribute(name = "LOPHOC")
+	public List<Lophoc> getAllLophoc() {
 		return giaovienServices.findAllLophoc();
 	}
 
-	
 	@RequestMapping("/list")
 	public String list(ModelMap model, HttpSession session) {
-		if (session.getAttribute("USERNAME")!= null) {
-		model.addAttribute("LIST_GIAOVIEN", giaovienServices.findAll());
-		return "view-giaovien";
+		if (session.getAttribute("USERNAME") != null) {
+			model.addAttribute("LIST_GIAOVIEN", giaovienServices.findAll());
+			return "view-giaovien";
 		}
 		return "login";
 	}
-	
+
 	@PostMapping("/checklogin")
-	public String checkLogin(ModelMap model, @RequestParam("username")String username,
-			@RequestParam("password") String password,
-			HttpSession session) {
+	public String checkLogin(ModelMap model, @RequestParam("username") String username,
+			@RequestParam("password") String password, HttpSession session) {
 		if (giaovienServices.checkLogin(username, password)) {
 			System.out.println("Login successful");
 			session.setAttribute("USERNAME", username);
-			model.addAttribute("LIST_GIAOVIEN",giaovienServices.findAll());
+			model.addAttribute("LIST_GIAOVIEN", giaovienServices.findAll());
 			return "/layout/main-layout";
-		}else {
+		} else {
 			System.out.println("Login faild");
-			model.addAttribute("ERROR","Username or password not exist");
+			model.addAttribute("ERROR", "Username or password not exist");
 		}
 		return "login";
 	}
+
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		session.removeAttribute("USERNAME");
 		return "redirect:/user/login";
 	}
+
 	@GetMapping("/")
-	public String addOrEdit(ModelMap model,HttpSession session) {
-		Giaovien giaovien= new Giaovien();
-		model.addAttribute("GIAOVIEN",giaovien);
+	public String addOrEdit(ModelMap model, HttpSession session) {
+		Giaovien giaovien = new Giaovien();
+		model.addAttribute("GIAOVIEN", giaovien);
 		model.addAttribute("LOPHOC", lophocServices.findAll());
-		model.addAttribute("ACTION","/giaovien/saveOrUpdate");
+		model.addAttribute("ACTION", "/giaovien/saveOrUpdate");
 		return "addgiaovien";
 	}
-	
+
 	@PostMapping("/saveOrUpdate")
-	public String saveOrUpdate(ModelMap model, @ModelAttribute("GIAOVIEN")Giaovien giaovien) {
+	public String saveOrUpdate(ModelMap model, @ModelAttribute("GIAOVIEN") Giaovien giaovien) {
+		System.out.println(giaovien.getLophocs().size());
 		giaovienServices.save(giaovien);
 		return "addgiaovien";
 	}
+
 	@GetMapping("/find")
 	public String findGiaovien(@RequestParam(name = "like", required = false) String name,
-			@RequestParam(name = "page", required = false) Integer page, 
-			@RequestParam(name = "limit", required = false) Integer limit, ModelMap model){
-		if(null == page) page = 0;
-		if(null == limit) limit = 10;
+			@RequestParam(name = "page", required = false) Integer page,
+			@RequestParam(name = "limit", required = false) Integer limit, ModelMap model) {
+		if (null == page)
+			page = 0;
+		if (null == limit)
+			limit = 10;
 		Pageable pageable = PageRequest.of(page, limit);
 		model.addAttribute("LIST_GIAOVIEN", giaovienServices.findGiaovienContainName(name, pageable).getContent());
 		return "view-gv";
 	}
+
 	@RequestMapping("/edit/{id}")
-	public String edit(ModelMap model,@PathVariable(name="id")Integer id,HttpSession session) {
+	public String edit(ModelMap model, @PathVariable(name = "id") Integer id, HttpSession session) {
 //		
-		Optional<Giaovien> u= giaovienServices.findById(id);
+		Optional<Giaovien> u = giaovienServices.findById(id);
 		if (u.isPresent()) {
-			model.addAttribute("GIAOVIEN",u.get());
-		}else {
-			model.addAttribute("GIAOVIEN",new Giaovien());
+			model.addAttribute("GIAOVIEN", u.get());
+		} else {
+			model.addAttribute("GIAOVIEN", new Giaovien());
 		}
-		
-		model.addAttribute("ACTION","/giaovien/saveOrUpdate");
+
+		model.addAttribute("ACTION", "/giaovien/saveOrUpdate");
 		return "addgiaovien";
 	}
-	
+
 	@RequestMapping("/delete/{id}")
-	public String delete(ModelMap model,@PathVariable(name="id") Integer id) {
+	public String delete(ModelMap model, @PathVariable(name = "id") Integer id) {
 		giaovienServices.deleteById(id);
 		model.addAttribute("LIST_GIAOVIEN", giaovienServices.findAll());
 		return "redirect:/giaovien/list";
 	}
-	
-	
-	
-	
+
 }

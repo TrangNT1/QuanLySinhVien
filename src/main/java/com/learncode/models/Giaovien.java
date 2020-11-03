@@ -1,7 +1,5 @@
 package com.learncode.models;
 
-
-
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -13,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -23,11 +23,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-
 @Entity
 @Table(name = "qtht_giaoviens")
-public class Giaovien implements Serializable{
-	
+public class Giaovien implements Serializable {
+
 	/**
 	 * 
 	 */
@@ -41,38 +40,48 @@ public class Giaovien implements Serializable{
 	private String diachi;
 	@Column(length = 50, columnDefinition = "nvarchar(50)")
 	private String phone;
-	
+
 	private Boolean gioitinh;
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern ="yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date birthday;
-	
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "lophocid")
 	private Lophoc lophoc;
-	
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "qtht_lophocs_giaoviens", joinColumns = @JoinColumn(name = "giaovienid"), inverseJoinColumns = @JoinColumn(name = "lophocid"))
+	Set<Lophoc> lophocs;
+
+	public Set<Lophoc> getLophocs() {
+		return lophocs;
+	}
+
+	public void setLophocs(Set<Lophoc> lophocs) {
+		this.lophocs = lophocs;
+	}
 
 	@OneToMany(mappedBy = "giaovien", fetch = FetchType.LAZY)
 	Set<Diem> diem;
-	
 
 	@OneToMany(mappedBy = "giaovien", fetch = FetchType.LAZY)
 	Set<Thoikhoabieu> thoikhoabieu;
-	
+
 	public Set<Diem> getDiem() {
 		return diem;
 	}
-	
+
 	public Set<Thoikhoabieu> getThoikhoabieu() {
 		return thoikhoabieu;
 	}
+
 	public Giaovien() {
 		super();
 	}
 
-	public Giaovien(Integer id, String fullname, String diachi, String phone,
-			Boolean gioitinh, Date birthday, Lophoc lophoc) {
+	public Giaovien(Integer id, String fullname, String diachi, String phone, Boolean gioitinh, Date birthday,
+			Lophoc lophoc) {
 		super();
 		this.id = id;
 		this.fullname = fullname;
@@ -139,9 +148,16 @@ public class Giaovien implements Serializable{
 	public void setLophoc(Lophoc lophoc) {
 		this.lophoc = lophoc;
 	}
-
 	
-	
-	
-	
+	public String lopHocsToString() {
+		StringBuilder output = new StringBuilder("");
+		if(null != this.lophocs && !this.lophocs.isEmpty()) {
+			for(Lophoc l: this.lophocs) {
+				output.append("," + l.getTenlop());
+			}
+		}else {
+			return "";
+		}
+		return output.substring(1);
+	}
 }

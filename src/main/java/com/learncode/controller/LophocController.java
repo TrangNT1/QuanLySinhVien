@@ -1,5 +1,6 @@
 package com.learncode.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
@@ -15,8 +16,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.learncode.models.Giaovien;
 import com.learncode.models.Lophoc;
+import com.learncode.models.Monhoc;
+import com.learncode.models.Sinhvien;
+import com.learncode.services.GiaovienServices;
 import com.learncode.services.LophocServices;
+import com.learncode.services.MonhocServices;
+import com.learncode.services.SinhvienServices;
 
 @Controller
 @RequestMapping("/lophoc")
@@ -24,6 +31,29 @@ public class LophocController {
 	@Autowired
 	LophocServices lophocServices;
 	
+	@Autowired
+	GiaovienServices giaovienServices;
+	
+	@Autowired
+	SinhvienServices sinhvienServices;
+	
+	@Autowired
+	MonhocServices monhocServices;
+	
+	@ModelAttribute(name ="GIAOVIEN")
+	public List<Giaovien> getAllGiaoviens(){
+		return lophocServices.findAllGiaovien();
+	}
+	
+	@ModelAttribute(name ="SINHVIEN")
+	public List<Sinhvien> getAllSinhviens(){
+		return lophocServices.findAllSinhvien();
+	}
+	@ModelAttribute(name ="MONHOC")
+	public List<Monhoc> getAllMonhocs(){
+		return lophocServices.findAllMonhoc();
+	}
+
 	@RequestMapping("/list")
 	public String list(ModelMap model, HttpSession session) {
 		if (session.getAttribute("USERNAME")!= null) {

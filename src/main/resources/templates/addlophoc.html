@@ -34,7 +34,24 @@
 						<input type="text"th:field="*{tenlop}"
 							class="form-control" name="tenlop" placeholder="Enter tenlop">
 					</div>
-				
+					<div class="form-group">
+						<label>Choose Giáo viên</label>
+						<select th:field="*{gv}"class="form-control" id="giaovienid" name="giaovienid">
+							<option th:each="gv:${GIAOVIEN}" th:value="${gv.id}"  th:text="${gv.fullname}"></option>	
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Choose Sinh viên</label>
+						<select th:field="*{sv}"class="form-control" id="sinhvienid" name="sinhvienid">
+							<option th:each="sv:${SINHVIEN}" th:value="${sv.id}"  th:text="${sv.hovaten}"></option>	
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Choose Môn học</label>
+						<select th:field="*{monhoc}"class="form-control" id="monhocid" name="monhocid">
+							<option th:each="monhoc:${MONHOC}" th:value="${monhoc.id}"  th:text="${monhoc.tenmonhoc}"></option>	
+						</select>
+					</div>
 					<button type="submit" class="btn btn-primary">Save</button>
 					<button type="reset" class="btn btn-primary">Cancel</button>
 					<a class="btn btn-primary" href="/lophoc/list">Display List Lophoc</a>

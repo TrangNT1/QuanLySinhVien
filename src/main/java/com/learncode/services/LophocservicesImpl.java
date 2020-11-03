@@ -6,9 +6,16 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.learncode.Respositories.GiaovienRespositories;
 import com.learncode.Respositories.LophocRespositories;
+import com.learncode.Respositories.MonhocRespositories;
+import com.learncode.Respositories.SinhvienRespositories;
 import com.learncode.Respositories.UserRespositories;
+import com.learncode.models.Giaovien;
 import com.learncode.models.Lophoc;
+import com.learncode.models.Monhoc;
+import com.learncode.models.Sinhvien;
 import com.learncode.models.User;
 
 
@@ -17,12 +24,35 @@ import com.learncode.models.User;
 public class LophocservicesImpl implements LophocServices{
 	@Autowired
 	LophocRespositories lophocRespositories;
+
+	@Autowired
+	GiaovienRespositories giaovienRespositories;
 	
+
+	@Autowired
+	SinhvienRespositories sinhvienRespositories;
+	
+	@Autowired
+	MonhocRespositories monhocRespositories;
 	
 	@Override
 	public Lophoc save(Lophoc entity) {
 		return lophocRespositories.save(entity);
 	}
+	
+	@Override
+	public  List<Giaovien> findAllGiaovien() {
+		return (List<Giaovien>)giaovienRespositories.findAll();
+	} 
+	@Override
+	public  List<Sinhvien> findAllSinhvien() {
+		return (List<Sinhvien>)sinhvienRespositories.findAll();
+	} 
+	@Override
+	public  List<Monhoc> findAllMonhoc() {
+		return (List<Monhoc>)monhocRespositories.findAll();
+	} 
+	
 	@Autowired
 	UserRespositories userRespositories;
 

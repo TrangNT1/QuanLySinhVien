@@ -36,7 +36,8 @@
                                     <td th:text="${item.phone}"></td>
                                     <td><span th:text="${item.gioitinh}?'Nam':'Nu'">Nam</span></td>
                                     <td th:text="${item.birthday}"></td>
-                                    <td th:style="${item.lophoc == null ? 'color:red;' : ''}" th:text="${item.lophoc == null ? '--' : item.lophoc.tenlop}"></td>
+                                    <td th:text="${item.lopHocsToString()}"></td>
+                                    <!-- <td th:style="${item.lophoc == null ? 'color:red;' : ''}" th:text="${item.lophoc == null ? '--' : item.lophoc.tenlop}"></td> -->
                                     <td>
                                         <div class="dropdown btn-custom">
                                             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

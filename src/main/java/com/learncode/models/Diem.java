@@ -17,7 +17,7 @@ public class Diem {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private Double diem;
-	
+	 
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "sinhvienid")

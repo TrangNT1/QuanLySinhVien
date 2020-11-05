@@ -3,20 +3,20 @@ package com.learncode.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
+import com.learncode.models.Permission;
 import com.learncode.models.User;
 
 @Service
-public interface UserServices {
+public interface UserServices extends UserDetailsService{
 
 	boolean checkExits(User user);
 
 	boolean checkLogin(String username, String password);
 
 	User findByUsername(String username);
-
-	void deleteAll();
 
 	void deleteAll(List<User> entities);
 
@@ -37,5 +37,7 @@ public interface UserServices {
 	List<User> saveAll(List<User> entities);
 
 	User save(User entity);
+
+	List<Permission> getAllPermission(String username);
 
 }

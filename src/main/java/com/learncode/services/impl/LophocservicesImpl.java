@@ -1,4 +1,4 @@
-package com.learncode.services;
+package com.learncode.services.impl;
 
 
 import java.util.List;
@@ -17,11 +17,11 @@ import com.learncode.models.Lophoc;
 import com.learncode.models.Monhoc;
 import com.learncode.models.Sinhvien;
 import com.learncode.models.User;
-
+import com.learncode.services.LophocServices;
 
 
 @Service
-public class LophocservicesImpl implements LophocServices{
+public class LophocservicesImpl implements LophocServices {
 	@Autowired
 	LophocRespositories lophocRespositories;
 
@@ -37,6 +37,7 @@ public class LophocservicesImpl implements LophocServices{
 	
 	@Override
 	public Lophoc save(Lophoc entity) {
+
 		return lophocRespositories.save(entity);
 	}
 	

@@ -36,33 +36,10 @@ public class SinhvienController {
 	
 	@RequestMapping("/list")
 	public String list(ModelMap model, HttpSession session) {
-		if (session.getAttribute("USERNAME")!= null) {
-			model.addAttribute("LIST_SINHVIEN", sinhvienServices.findAll());
-			return "view-sinhvien";
-		}
-		return "login";
+		model.addAttribute("LIST_SINHVIEN", sinhvienServices.findAll());
+		return "view-sinhvien";
 	}
 	
-	@PostMapping("/checklogin")
-	public String checkLogin(ModelMap model, @RequestParam("username")String username,
-			@RequestParam("password") String password,
-			HttpSession session) {
-		if (sinhvienServices.checkLogin(username, password)) {
-			System.out.println("Login successful");
-			session.setAttribute("USERNAME", username);
-			model.addAttribute("LIST_GIAOVIEN",sinhvienServices.findAll());
-			return "/layout/main-layout";
-		}else {
-			System.out.println("Login faild");
-			model.addAttribute("ERROR","Username or password not exist");
-		}
-		return "login";
-	}
-	@GetMapping("/logout")
-	public String logout(HttpSession session) {
-		session.removeAttribute("USERNAME");
-		return "redirect:/user/login";
-	}
 	@GetMapping("/")
 	public String addOrEdit(ModelMap model) {
 		Sinhvien sinhvien= new Sinhvien();

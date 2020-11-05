@@ -18,7 +18,7 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
 	@PersistenceContext
 	EntityManager em;
 	
-	private final String nativeQueryFindPermission = "";
+	private final String nativeQueryFindPermission = "";  
 	
 	@Override
 	public boolean hasPermission(Authentication auth, Object targetDomainObject, Object permission) {
@@ -27,9 +27,9 @@ public class CustomPermissionEvaluator implements PermissionEvaluator {
 			List<Object[]> resultList = (List<Object[]>) this.em.createNativeQuery(this.nativeQueryFindPermission).setParameter(1, auth.getName()).getResultList();
 			List<Object[]> data = resultList;
 			for(Object[] per: data) {
-				if(per[0].toString().equals(String.valueOf(permission))) {
-					return true;
-				}
+				if(per[0].toString().equals(String.valueOf(permission))) {   
+					return true;     
+				}   
 			}
 		}
 		return false;

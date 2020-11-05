@@ -54,33 +54,10 @@ public class DiemController {
 	
 	@RequestMapping("/list")
 	public String list(ModelMap model, HttpSession session) {
-		if (session.getAttribute("USERNAME")!= null) {
-			model.addAttribute("LIST_DIEM", diemServices.findAll());
+		model.addAttribute("LIST_DIEM", diemServices.findAll());
 			return "view-diem";
-		}
-		return "login";
 	}
 	
-	@PostMapping("/checklogin")
-	public String checkLogin(ModelMap model, @RequestParam("username")String username,
-			@RequestParam("password") String password,
-			HttpSession session) {
-		if (diemServices.checkLogin(username, password)) {
-			System.out.println("Login successful");
-			session.setAttribute("USERNAME", username);
-			model.addAttribute("LIST_GIAOVIEN",diemServices.findAll());
-			return "/layout/main-layout";
-		}else {
-			System.out.println("Login faild");
-			model.addAttribute("ERROR","Username or password not exist");
-		}
-		return "login";
-	}
-	@GetMapping("/logout")
-	public String logout(HttpSession session) {
-		session.removeAttribute("USERNAME");
-		return "redirect:/user/login";
-	}
 	@GetMapping("/")
 	public String addOrEdit(ModelMap model) {
 		Diem diem= new Diem();

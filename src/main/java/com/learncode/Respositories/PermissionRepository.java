@@ -3,10 +3,9 @@ package com.learncode.Respositories;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import com.learncode.models.Sinhvien;
+import com.learncode.models.Permission;
 
 @Repository
-
-public interface SinhvienRespositories extends CrudRepository<Sinhvien, Integer>{
-       
+public interface PermissionRepository extends CrudRepository<Permission, String>{
+	
 }
